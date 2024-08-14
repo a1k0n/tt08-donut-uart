@@ -5,7 +5,7 @@ module top (
 );
 
 // "Hello world!" ROM array
-reg [7:0] rom [0:11];
+reg [7:0] rom [0:12];
 initial begin
     rom[0] = 8'h48;  // 'H'
     rom[1] = 8'h65;  // 'e'
@@ -19,6 +19,7 @@ initial begin
     rom[9] = 8'h6C;  // 'l'
     rom[10] = 8'h64;  // 'd'
     rom[11] = 8'h21;  // '!'
+    rom[12] = 8'h0a;  // '\n'
 end
 
 reg [3:0] rom_addr = 0;  // ROM address counter
@@ -34,12 +35,12 @@ UART_Transmitter tx_inst (
     .txe(txe)
 );
 
-always @(posedge clk or negedge nrst) begin
+always @(posedge clk) begin
     if (!nrst) begin
         rom_addr <= 0;
     end else begin
         if (txe) begin
-            if (rom_addr == 11)
+            if (rom_addr == 12)
                 rom_addr <= 0;
             else
                 rom_addr <= rom_addr + 1;

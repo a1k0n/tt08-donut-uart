@@ -39,7 +39,7 @@ public:
                 break;
             case STOP_BIT:
                 if (bit) {
-                    putchar(data_ ^ 0xff);
+                    putchar(data_);
                 }
                 state_ = IDLE;
                 break;
