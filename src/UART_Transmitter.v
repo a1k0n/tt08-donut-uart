@@ -1,3 +1,5 @@
+`default_nettype none
+
 module UART_Transmitter (
     input wire clk,  // Clock input
     input wire nrst, // Reset input (active low)

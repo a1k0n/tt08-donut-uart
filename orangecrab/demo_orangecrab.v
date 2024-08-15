@@ -4,7 +4,7 @@ module demo_orangecrab (
     output gpio_0  // usart tx
 );
 
-defparam top.tx_inst.CLOCK_DIVIDER = 417;  // 115200 baud rate
+defparam top.CLOCK_DIVIDER = 417;  // 115200 baud rate
 
 top top(
   .clk(clk48),

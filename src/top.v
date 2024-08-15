@@ -4,8 +4,11 @@ module top (
     output reg tx    // Serial data output
 );
 
+parameter CLOCK_DIVIDER = 2;  // 2 for testing
+defparam tx_inst.CLOCK_DIVIDER = CLOCK_DIVIDER;
+
 // "Hello world!" ROM array
-reg [7:0] rom [0:12];
+reg [7:0] rom [0:13];
 initial begin
     rom[0] = 8'h48;  // 'H'
     rom[1] = 8'h65;  // 'e'
@@ -19,7 +22,8 @@ initial begin
     rom[9] = 8'h6C;  // 'l'
     rom[10] = 8'h64;  // 'd'
     rom[11] = 8'h21;  // '!'
-    rom[12] = 8'h0a;  // '\n'
+    rom[12] = 8'h0d;  // '\n'
+    rom[13] = 8'h0a;  // '\n'
 end
 
 reg [3:0] rom_addr = 0;  // ROM address counter
@@ -40,7 +44,7 @@ always @(posedge clk) begin
         rom_addr <= 0;
     end else begin
         if (txe) begin
-            if (rom_addr == 12)
+            if (rom_addr == 13)
                 rom_addr <= 0;
             else
                 rom_addr <= rom_addr + 1;
