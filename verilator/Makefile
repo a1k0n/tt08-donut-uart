@@ -1,26 +1,24 @@
-# Verilator executable
+TARGETS = top serialmul vectoring_cordic
 VERILATOR = verilator
+VERILATOR_FLAGS = -Wall --trace -cc --exe -I../src
+CPP = g++
+CPP_FLAGS = -std=c++11 -Wall
 
-# Verilog source file
-VERILOG_SRC = ../src/top.v ../src/UART_Transmitter.v
+all: $(TARGETS)
 
-# Testbench source file
-TESTBENCH_SRC = testbench.cpp
+top: ../src/top.v ../src/UART_Transmitter.v testbench.cpp
+	$(VERILATOR) -Wno-widthexpand -Wno-widthtrunc --trace -cc --exe $^ -CFLAGS "-g -O3" --top-module top
+	make -C obj_dir -f V$@.mk
+	cp obj_dir/V$@ $@
 
-# Output directory
-OUTPUT_DIR = obj_dir
-
-# Verilator flags
-VERILATOR_FLAGS = --cc --exe --trace
-
-# Targets
-all: $(OUTPUT_DIR)/Vtop
-
-$(OUTPUT_DIR)/Vtop: $(VERILOG_SRC) $(TESTBENCH_SRC)
-	$(VERILATOR) $(VERILATOR_FLAGS) $(VERILOG_SRC) $(TESTBENCH_SRC)
-	make -C $(OUTPUT_DIR) -f Vtop.mk
+%: ../src/%.v %_tb.cpp
+	$(VERILATOR) $(VERILATOR_FLAGS) $< $*_tb.cpp
+	make -C obj_dir -f V$@.mk
+	cp obj_dir/V$@ $@
 
 clean:
-	rm -rf $(OUTPUT_DIR)
+	rm -rf obj_dir
+	rm -f $(TARGETS)
+	rm -f *.vcd
 
 .PHONY: all clean
