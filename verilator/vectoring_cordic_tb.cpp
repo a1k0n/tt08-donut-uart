@@ -58,10 +58,10 @@ int main(int argc, char **argv) {
     printf("cycle %d: xout=%d, x2out=%d\n", i, (int16_t)top->xout, (int16_t)top->x2out);
     printf("   internal state: (cycle=%d x=%d y=%d x2=%d y2=%d)\n",
            top->rootp->vectoring_cordic__DOT__cycle,
-           top->rootp->vectoring_cordic__DOT__x,
-           top->rootp->vectoring_cordic__DOT__y,
-           top->rootp->vectoring_cordic__DOT__x2,
-           top->rootp->vectoring_cordic__DOT__y2);
+           (int16_t) top->rootp->vectoring_cordic__DOT__x,
+           (int16_t) top->rootp->vectoring_cordic__DOT__y,
+           (int16_t) top->rootp->vectoring_cordic__DOT__x2,
+           (int16_t) top->rootp->vectoring_cordic__DOT__y2);
 
     if (top->done) {
       printf("done next cycle\n");
